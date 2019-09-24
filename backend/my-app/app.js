@@ -1,6 +1,13 @@
+//////////////////////////////////// Dependencies ////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////
+
+
 const express = require('express');
 var mysql = require('mysql');
 var con = require('./connect');
+var session = require('express-session')
+var cred = require('./credentials');
+var MySQLStore = require('express-mysql-session')(session);
 const app = express();
 const port = 4000;
 
@@ -8,10 +15,38 @@ var date = new Date();
 
 // Parse body of request as a JSON object.
 app.use(express.json());
+ 
+
+var sessionStore = new MySQLStore({}, con);
+
+// Set Session Parameters
+app.use(session({
+    secret: cred.sessionSecret,
+    saveUninitialized: false,
+    store: sessionStore,
+    resave: false,
+    cookie: {
+        maxAge: 21600000, // 6 Hours
+        secure: cred.secureCookie
+    }
+}));
 
 // Heath Check
 app.listen(port, () => console.log(`Auth is listening on port ${port}!`));
-app.get('/', (req, res) => res.send('Auth backend is running correctly! ' + date.toISOString()));
+// app.get('/', (req, res) => res.send('Auth backend is running correctly! ' + date.toISOString()));
+
+app.get('/', function(req, res){
+    if(req.session.loggedIn){
+       res.send("loggedIn: " + req.session.loggedIn + "\n" +
+       "email: " + req.session.email + "\n" +
+       "firstName: " + req.session.firstName);
+    } else {
+       res.send("Not logged in!");
+    }
+ });
+
+//////////////////////////////////// Code ////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
 
 try {
 
@@ -22,7 +57,7 @@ app.post('/api/register', function (req, res) {
 
     var val = new Validation();
     val.email(request.email);
-    if (val.getOutput().pass) {
+    if (val.getOutput().success) {
         var sql = "INSERT INTO User (Email, First_Name, Last_Name, Password_Hash) VALUES (?,?,?,?)";
         con.query(sql, [request.email.data, request.firstName.data, request.lastName.data, request.password.data], function (err, result) {
             if (!err)
@@ -46,15 +81,20 @@ app.post('/api/register', function (req, res) {
 
 /////////////////////// Login ////////////////////////
 app.post('/api/login', function (req, res) {
-    var data = req.body;
+    var request = req.body;
     console.log(req.body);
 
-    var sql = "SELECT Password_Hash FROM User WHERE Email = ?";
-    con.query(sql, [data.email], function (err, result) {
+    var sql = "SELECT User_ID, Email, Password_Hash, First_Name, Last_Name FROM User WHERE Email = ?";
+    con.query(sql, [request.email.data], function (err, result) {
         if (!err)
         {
             console.log("Number of records retrieved: " + result.length);
-            if (result.length === 1 && result[0].Password_Hash === data.password) {
+            if (result.length === 1 && result[0].Password_Hash === request.password.data) {
+                req.session.loggedIn = true;
+                req.session.userID = result[0].User_ID;
+                req.session.email = result[0].Email;
+                req.session.firstName = result[0].First_Name;
+                req.session.lastName = result[0].Last_Name;
                 res.send(JSON.stringify({"success": true, "errors": []}));
             } else {
                 res.send(JSON.stringify({"success": false, "errors": [{"description": "Email and/or password are incorrect."}]}));
@@ -82,6 +122,11 @@ class Validation {
         this.output.errors = [];
     }
     
+    /**
+     * Email validation function. Checks email is 100 character or less and is a valid email.
+     * If not it will add an error report to the Validation object.
+     * @param {*} email The email object to be validated. Should contain the email at email.data and optional id at email.id
+     */
     email(email) {
         var regex = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/);
         if (this.defined(email))
