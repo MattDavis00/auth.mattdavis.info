@@ -1,6 +1,126 @@
 /* You can add global styles to this file, and also import other style files */
 
-.card-center {
-    /* margin: auto; */
-    max-width: 500px;
+:root {
+    --light-gray: rgba(0,0,0,.25);
+    --link: rgba(0,0,0,.45);
+    --link-hover: rgba(0,0,0,.75);
+    --white: rgba(255,255,255,.8);
+    --white-sec: rgba(255,255,255,.25);
+    --white-link: rgba(255,255,255,.6);
+    --accent: rgba(96, 125, 139,1.0);
+    --accent-light: rgba(38, 50, 56,1.0);
+    --accent-other: rgba(13, 71, 161,1.0);
 }
+
+body, html {
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    background-color: #eee;
+}
+
+.page {
+    position: absolute;
+    width: 100%;
+    min-height: 100%;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.card-center {
+    padding: 30px;
+    background-color: #fff;
+    text-align: center;
+    max-width: 500px;
+    color: var(--link-hover);
+}
+
+h1 {
+    font-size: 1.5rem;
+    letter-spacing: 0.1rem;
+    color: var(--link-hover);
+    text-transform: uppercase;
+}
+
+a, a:visited, a:active {
+    transition: 500ms;
+    color: var(--link);
+}
+
+a:hover {
+    cursor: pointer;
+    color: var(--link-hover);
+}
+
+.a-button, .a-button:visited, .a-button:active  {
+    padding: 10px;
+    text-decoration: none;
+    color: var(--white);
+    background-color: var(--accent);
+    margin-bottom: 20px;
+    display: inline-block;
+    user-select: none;
+}
+  
+.a-button:hover {
+    color: var(--white);
+    background-color: rgba(69, 90, 100,1.0);
+}
+
+.content > * {
+    margin-top: 5px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.submit-button {
+    width: calc(100% - 120px);
+}
+
+.line-horizontal {
+    position: relative;
+    height: 0px;
+    border-top: 1px solid var(--link);
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    margin: 15px 0 15px 0;
+}
+
+.section {
+    margin: 15px 0 15px 0;
+    /* margin: 20px 50px 20px 50px; */
+    width: 100%;
+    max-width: 400px;
+}
+
+input {
+    padding: 5px;
+    border: none;
+    border-bottom: 1px solid var(--light-gray);
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    margin-top: 15px;
+    outline: none;
+    transition: 500ms;
+}
+
+input:focus {
+    border-bottom: 1px solid var(--accent-other);
+}
+
+
+/*
+CSS Alterations For Mobile Devices
+Such as reducing/removing margin to maximise content density.
+*/
+@media (max-width: 449.98px) {
+  
+    .login {
+        width: calc(100% - 40px);
+    }
+  
+  }

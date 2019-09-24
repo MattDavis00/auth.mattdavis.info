@@ -1,33 +1,32 @@
-<div class="card text-center card-center">
-    <div class="card-header">
-        <h5>Register for Single Sign-On</h5>
-    </div>
-    <div class="card-body">
-        <form>
-            <div class="form-group">
-                <label for="email" class="col-form-label">Email:</label>
-                <input type="text" class="form-control" ng-model="registerData.email" id="register-email">
+<div class="page">
+    <div class="card-center">
+        <div class="content">
+            <h1>Registration</h1>
+
+            <div class="line-horizontal"></div>
+
+            <form class="section" (ngSubmit)="register()">
+                <!-- <label for="email" class="col-form-label">Email:</label> -->
+                <input type="text" placeholder="johnsmith@gmail.com" [(ngModel)]="email" name="email" id="register-email">
+
+                <!-- <label for="text" class="col-form-label">First Name:</label> -->
+                <input type="text" placeholder="John"  [(ngModel)]="firstName" name="firstName" id="register-firstName">
+
+                <!-- <label for="text" class="col-form-label">Last Name:</label> -->
+                <input type="text" placeholder="Smith"  [(ngModel)]="lastName" name="lastName" id="register-lastName">
+
+                <!-- <label for="password" class="col-form-label">Password:</label> -->
+                <input type="password" placeholder="Password"  [(ngModel)]="password" name="password" id="register-password">
+
+                <!-- <label for="password" class="col-form-label">Repeat Password:</label> -->
+                <input type="password" placeholder="Repeat Password"  [(ngModel)]="passwordRepeat" name="passwordRepeat" id="register-passwordRepeat">
+
+                <input type="submit" style="display: none" />
+            </form>
+            <div class="section">
+                <a class="submit-button a-button" (click)="register()">Register</a>
+                <a class="" routerLink="/login">Already have an account? Login!</a>
             </div>
-            <div class="form-group">
-                <label for="text" class="col-form-label">First Name:</label>
-                <input type="text" class="form-control" ng-model="registerData.firstName" id="register-firstName">
-            </div>
-            <div class="form-group">
-                <label for="text" class="col-form-label">Last Name:</label>
-                <input type="text" class="form-control" ng-model="registerData.lastName" id="register-lastName">
-            </div>
-            <div class="form-group">
-                <label for="password" class="col-form-label">Password:</label>
-                <input type="password" class="form-control" ng-model="registerData.password" id="register-password">
-            </div>
-            <div class="form-group">
-                <label for="password" class="col-form-label">Repeat Password:</label>
-                <input type="password" class="form-control" ng-model="registerData.passwordRepeat" id="register-passwordRepeat">
-            </div>
-        </form>
-        <button type="button" class="btn btn-primary" ng-click="Register()">Register</button>
-    </div>
-    <div class="card-footer text-muted">
-    <button type="button" class="login-button btn btn-link modal-link-text" routerLink="/login">Already have an account? Login!</button><br />
+        </div>
     </div>
 </div>
