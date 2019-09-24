@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import backendURL from '../backendURL';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -21,7 +23,7 @@ export class RegisterComponent implements OnInit {
 
   register() {
     console.log("Register function ran!");
-    this.http.post("http://localhost:4000/register",
+    this.http.post(backendURL + "/register",
     {
     "email": {"data": this.email, "id": "email"},
     "firstName": {"data": this.firstName, "id": "firstName"},
