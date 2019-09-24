@@ -16,7 +16,10 @@ var date = new Date();
 
 // Parse body of request as a JSON object.
 app.use(express.json());
- 
+
+// ONLY TO BE USED IN DEVELOPMENT Allow requests from different origins.
+//var cors = require('cors');
+//app.use(cors());
 
 var sessionStore = new MySQLStore({}, con);
 
@@ -60,7 +63,7 @@ try {
         val.email(request.email);
         val.name(request.firstName);
         val.name(request.lastName);
-        val.password(request.password, request.repeatPassword)
+        val.password(request.password, request.passwordRepeat)
         if (val.getOutput().success) {
 
             var hash = bcrypt.hashSync(request.password.data, 10); // Generate BCrypt Hash
