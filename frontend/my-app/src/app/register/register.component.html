@@ -7,19 +7,19 @@
 
             <form class="section" (ngSubmit)="register()">
                 <!-- <label for="email" class="col-form-label">Email:</label> -->
-                <input type="text" placeholder="johnsmith@gmail.com" [(ngModel)]="email" name="email" id="register-email">
+                <input type="text" placeholder="johnsmith@gmail.com" [(ngModel)]="email" name="email" id="email">
 
                 <!-- <label for="text" class="col-form-label">First Name:</label> -->
-                <input type="text" placeholder="John"  [(ngModel)]="firstName" name="firstName" id="register-firstName">
+                <input type="text" placeholder="John"  [(ngModel)]="firstName" name="firstName" id="firstName">
 
                 <!-- <label for="text" class="col-form-label">Last Name:</label> -->
-                <input type="text" placeholder="Smith"  [(ngModel)]="lastName" name="lastName" id="register-lastName">
+                <input type="text" placeholder="Smith"  [(ngModel)]="lastName" name="lastName" id="lastName">
 
                 <!-- <label for="password" class="col-form-label">Password:</label> -->
-                <input type="password" placeholder="Password"  [(ngModel)]="password" name="password" id="register-password">
+                <input type="password" placeholder="Password"  [(ngModel)]="password" name="password" id="password">
 
                 <!-- <label for="password" class="col-form-label">Repeat Password:</label> -->
-                <input type="password" placeholder="Repeat Password"  [(ngModel)]="passwordRepeat" name="passwordRepeat" id="register-passwordRepeat">
+                <input type="password" placeholder="Repeat Password"  [(ngModel)]="passwordRepeat" name="passwordRepeat" id="passwordRepeat">
 
                 <input type="submit" style="display: none" />
             </form>

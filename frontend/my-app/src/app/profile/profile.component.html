@@ -1,0 +1,41 @@
+<div class="page">
+    <div class="card-center">
+        <div class="content">
+            
+
+            <div class="line-horizontal"></div>
+
+            <div class="section">
+                <h3>Welcome, {{firstName}}.<br>You are currently logged in.</h3>
+                <a class="submit-button a-button" (click)="logout()">Logout</a>
+            </div>
+            
+            <div class="line-horizontal"></div>
+
+            <h1>Profile</h1>
+
+            <form class="section" (ngSubmit)="register()">
+                <!-- <label for="email" class="col-form-label">Email:</label> -->
+                <input type="text" [placeholder]="email" [(ngModel)]="newEmail" name="email" id="email">
+
+                <!-- <label for="text" class="col-form-label">First Name:</label> -->
+                <input type="text" [placeholder]="firstName"  [(ngModel)]="newfirstName" name="firstName" id="firstName">
+
+                <!-- <label for="text" class="col-form-label">Last Name:</label> -->
+                <input type="text" [placeholder]="lastName"  [(ngModel)]="newLastName" name="lastName" id="lastName">
+
+                <!-- <label for="password" class="col-form-label">Password:</label> -->
+                <input type="password" placeholder="Password"  [(ngModel)]="newPassword" name="password" id="password">
+
+                <!-- <label for="password" class="col-form-label">Repeat Password:</label> -->
+                <input type="password" placeholder="Repeat Password"  [(ngModel)]="newPasswordRepeat" name="passwordRepeat" id="passwordRepeat">
+
+                <input type="submit" style="display: none" />
+            </form>
+            <div class="section">
+                <a class="submit-button a-button" (click)="update()">Update</a>
+                All of your data is held in accordance with our <a class="" routerLink="/privacy-policy">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+</div>
