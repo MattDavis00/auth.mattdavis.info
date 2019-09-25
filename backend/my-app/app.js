@@ -125,6 +125,14 @@ try {
         
     });
 
+    /////////////////////// Verify ////////////////////////
+    app.get('/verify', function (req, res) {
+        if (req.session.loggedIn)
+            res.send(JSON.stringify({"loggedIn": req.session.loggedIn, "userID": req.session.userID, "email": req.session.email, "firstName": req.session.firstName, "lastName": req.session.lastName}));
+        else
+            res.send(JSON.stringify({"loggedIn": false}));
+    });
+
     /////////////////////// Error Handler ////////////////////////
     function errorHandler (err, res) {
         console.log(err);

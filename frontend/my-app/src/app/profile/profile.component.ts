@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+
+import backendURL from '../backendURL';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +11,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  email: string = "mw.davis@hotmail.co.uk";
-  firstName: string = "Matt";
-  lastName: string = "Davis";
+  email: string = "";
+  firstName: string = "";
+  lastName: string = "";
   
   newEmail: string = "";
   newfirstName: string = "";
@@ -17,10 +21,32 @@ export class ProfileComponent implements OnInit {
   newPassword: string = "";
   newPasswordRepeat: string = "";
 
-  constructor() { }
+  constructor(private http: HttpClient, public router: Router) { }
 
   ngOnInit() {
+    this.http.get<{
+      loggedIn: boolean;
+      userID: number;
+      email: string;
+      firstName: string;
+      lastName: string;
+    }>(backendURL + "/verify")
+    .subscribe(
+      data  => {
+        console.log("GET Request is successful ", data);
+        if (data.loggedIn) {
+          this.email = data.email;
+          this.firstName = data.firstName;
+          this.lastName = data.lastName;
+        } else {
+          this.router.navigate(['/login']); // If user isn't logged in, redirect to login page.
+        }
+      },
+      error  => {
+        console.log("Error", error);
+      }
 
+    );
   }
 
   logout() {
