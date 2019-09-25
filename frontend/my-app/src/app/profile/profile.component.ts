@@ -23,4 +23,12 @@ export class ProfileComponent implements OnInit {
 
   }
 
+  logout() {
+
+  }
+
+  register() {
+    
+  }
+
 }
