@@ -27,8 +27,8 @@ export class ProfileComponent implements OnInit {
 
   }
 
-  register() {
-    
+  update() {
+
   }
 
 }
