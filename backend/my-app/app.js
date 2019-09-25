@@ -25,13 +25,15 @@ var sessionStore = new MySQLStore({}, con);
 
 // Set Session Parameters
 app.use(session({
+    key: "auth.mattdavis.info cookie",
     secret: cred.sessionSecret,
     saveUninitialized: false,
     store: sessionStore,
     resave: false,
     cookie: {
         maxAge: 21600000, // 6 Hours
-        secure: cred.secureCookie
+        secure: cred.secureCookie,
+        httpOnly: true
     }
 }));
 
