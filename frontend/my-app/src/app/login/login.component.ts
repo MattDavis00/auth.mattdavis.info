@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
+
 
 import backendURL from '../backendURL';
 
@@ -13,15 +15,32 @@ export class LoginComponent implements OnInit {
   email: string = "";
   password: string = "";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public router: Router) { }
 
   ngOnInit() {
+    this.http.get<{
+      loggedIn: boolean;
+    }>(backendURL + "/verify")
+    .subscribe(
+      data  => {
+        console.log("GET Request is successful ", data);
+        if (data.loggedIn) {
+          this.router.navigate(['/profile']); // User is already logged in, redirect to profile.
+        }
+      },
+      error  => {
+        console.log("Error", error);
+      }
+
+    );
   }
 
   login() {
     console.log("Ran login function!!!!!");
     console.log(this.email + this.password);
-    this.http.post(backendURL + "/login",
+    this.http.post<{
+      success: boolean;
+    }>(backendURL + "/login",
     {
     "email": {"data": this.email, "id": "email"},
     "password": {"data": this.password, "id": "password"}
@@ -29,22 +48,15 @@ export class LoginComponent implements OnInit {
     .subscribe(
       data  => {
         console.log("POST Request is successful ", data);
+        if (data.success)
+          this.router.navigate(['/profile']); // Login was successful, redirect to profile.
       },
       error  => {
         console.log("Error", error);
       }
 
     );
-    this.http.get(backendURL)
-    .subscribe(
-      data  => {
-        console.log("GET Request is successful ", data);
-      },
-      error  => {
-        console.log("Error", error);
-      }
 
-    );
   }
 
 }

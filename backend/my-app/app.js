@@ -73,7 +73,7 @@ try {
                 {
                     console.log("Number of records inserted: " + result.affectedRows);
                     if (result.affectedRows === 1) {
-                        res.send(JSON.stringify({"success": true, "errors": []}));
+                        login(req, res); // User has been registered, now log the user in with those credentials.
                     } else {
                         errorHandler(err, res);
                     }
@@ -90,7 +90,11 @@ try {
 
 
     /////////////////////// Login ////////////////////////
-    app.post('/login', function (req, res) {
+    app.post('/login', function (req, res){
+        login(req, res);
+    });
+
+    function login(req, res) {
         var request = req.body;
         console.log(req.body);
 
@@ -120,8 +124,7 @@ try {
                 errorHandler(err, res);
             }
         });
-        
-    });
+    }
 
     /////////////////////// Verify ////////////////////////
     app.get('/verify', function (req, res) {

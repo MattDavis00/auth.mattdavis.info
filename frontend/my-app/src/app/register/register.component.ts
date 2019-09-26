@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 import backendURL from '../backendURL';
 
@@ -16,14 +17,31 @@ export class RegisterComponent implements OnInit {
   password: string = "";
   passwordRepeat: string = "";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public router: Router) { }
 
   ngOnInit() {
+    this.http.get<{
+      loggedIn: boolean;
+    }>(backendURL + "/verify")
+    .subscribe(
+      data  => {
+        console.log("GET Request is successful ", data);
+        if (data.loggedIn) {
+          this.router.navigate(['/profile']); // User is already logged in, redirect to profile.
+        }
+      },
+      error  => {
+        console.log("Error", error);
+      }
+
+    );
   }
 
   register() {
     console.log("Register function ran!");
-    this.http.post(backendURL + "/register",
+    this.http.post<{
+      success: boolean;
+    }>(backendURL + "/register",
     {
     "email": {"data": this.email, "id": "email"},
     "firstName": {"data": this.firstName, "id": "firstName"},
@@ -34,6 +52,8 @@ export class RegisterComponent implements OnInit {
     .subscribe(
       data  => {
         console.log("POST Request is successful ", data);
+        if (data.success)
+          this.router.navigate(['/profile']); // Registration was successful, redirect to profile.
       },
       error  => {
         console.log("Error", error);
