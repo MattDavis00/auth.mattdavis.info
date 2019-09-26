@@ -96,8 +96,16 @@ a:hover {
     max-width: 400px;
 }
 
+h1, h2, h3, h4, h5, h6 {
+    margin-top: 5px;
+}
+
+h3, h4, h5, h6 {
+    margin-bottom: 5px;
+}
+
 input {
-    padding: 5px;
+    padding: 5px 0 5px 0;
     border: none;
     border-bottom: 1px solid var(--light-gray);
     text-align: center;
@@ -110,6 +118,19 @@ input {
 
 input:focus {
     border-bottom: 1px solid var(--accent-other);
+}
+
+.label-animated {
+    width: 100%;
+    position: relative;
+}
+
+.label-animated label {
+    font-size: 12px;
+	position: absolute;
+	pointer-events: none;
+    bottom: 6px;
+	left: 5px;
 }
 
 

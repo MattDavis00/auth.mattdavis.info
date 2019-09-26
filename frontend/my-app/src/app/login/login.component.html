@@ -4,9 +4,18 @@
             <h1>Authentication</h1>
             <div class="line-horizontal"></div>
             <form class="section" (ngSubmit)="login()">
-                <input type="text" placeholder="email@gmail.com" class=""  [(ngModel)]="email" id="login-email" name="email">
-                <input type="password" placeholder="••••••••" class="" [(ngModel)]="password" id="login-password" name="password">
-                <input type="submit" style="display: none" />
+                
+                <div class="label-animated">
+                    <input type="text" placeholder="bob@example.com" class=""  [(ngModel)]="email" id="login-email" name="email" required>
+                    <label>Email:</label>
+                </div>
+
+                <div class="label-animated">
+                    <input type="password" placeholder="••••••••" class="" [(ngModel)]="password" id="login-password" name="password" required>
+                    <label>Password:</label>
+                </div>
+
+                <input type="submit" style="display: none" formnovalidate/>
             </form>
             <div class="section">
                 <a class="submit-button a-button" (click)="login()">Login</a>

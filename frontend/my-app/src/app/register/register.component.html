@@ -6,22 +6,34 @@
             <div class="line-horizontal"></div>
 
             <form class="section" (ngSubmit)="register()">
-                <!-- <label for="email" class="col-form-label">Email:</label> -->
-                <input type="text" placeholder="johnsmith@gmail.com" [(ngModel)]="email" name="email" id="email">
 
-                <!-- <label for="text" class="col-form-label">First Name:</label> -->
-                <input type="text" placeholder="John"  [(ngModel)]="firstName" name="firstName" id="firstName">
+                <div class="label-animated">
+                    <input type="text" placeholder="johnsmith@example.com" [(ngModel)]="email" name="email" id="email" required>
+                    <label>Email:</label>
+                </div>
+                
 
-                <!-- <label for="text" class="col-form-label">Last Name:</label> -->
-                <input type="text" placeholder="Smith"  [(ngModel)]="lastName" name="lastName" id="lastName">
+                <div class="label-animated">
+                    <input type="text" placeholder="John"  [(ngModel)]="firstName" name="firstName" id="firstName" required>
+                    <label>First Name:</label>
+                </div>
 
-                <!-- <label for="password" class="col-form-label">Password:</label> -->
-                <input type="password" placeholder="Password"  [(ngModel)]="password" name="password" id="password">
+                <div class="label-animated">
+                        <input type="text" placeholder="Smith"  [(ngModel)]="lastName" name="lastName" id="lastName" required>
+                    <label>Last Name:</label>
+                </div>
 
-                <!-- <label for="password" class="col-form-label">Repeat Password:</label> -->
-                <input type="password" placeholder="Repeat Password"  [(ngModel)]="passwordRepeat" name="passwordRepeat" id="passwordRepeat">
+                <div class="label-animated">
+                    <input type="password" placeholder="••••••••"  [(ngModel)]="password" name="password" id="password" required>
+                    <label>Password:</label>
+                </div>
 
-                <input type="submit" style="display: none" />
+                <div class="label-animated">
+                        <input type="password" placeholder="••••••••"  [(ngModel)]="passwordRepeat" name="passwordRepeat" id="passwordRepeat" required>
+                    <label>Repeat Password:</label>
+                </div>
+
+                <input type="submit" style="display: none" formnovalidate/>
             </form>
             <div class="section">
                 <a class="submit-button a-button" (click)="register()">Register</a>
