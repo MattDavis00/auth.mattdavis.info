@@ -50,7 +50,20 @@ export class ProfileComponent implements OnInit {
   }
 
   logout() {
+    this.http.get<{
+      loggedIn: boolean;
+    }>(backendURL + "/logout")
+    .subscribe(
+      data  => {
+        console.log("GET Request is successful ", data);
+        if (!data.loggedIn)
+          this.router.navigate(['/login']); // User has been logged out, redirect to login page.
+      },
+      error  => {
+        console.log("Error", error);
+      }
 
+    );
   }
 
   update() {

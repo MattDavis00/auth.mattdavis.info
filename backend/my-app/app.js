@@ -126,6 +126,17 @@ try {
         });
     }
 
+    /////////////////////// Logout ////////////////////////
+    app.get('/logout', function (req, res) {
+        if (req.session.loggedIn) {
+            req.session.destroy();
+            res.send(JSON.stringify({"loggedIn": false}));
+        }
+        else {
+            res.send(JSON.stringify({"loggedIn": false}));
+        }
+    });
+
     /////////////////////// Verify ////////////////////////
     app.get('/verify', function (req, res) {
         if (req.session.loggedIn)
