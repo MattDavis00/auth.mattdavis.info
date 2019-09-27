@@ -133,6 +133,33 @@ input:focus {
 	left: 5px;
 }
 
+/* Circular Loading Animations */
+.loader {
+    display: none;
+    position: relative;
+    margin: auto;
+    border: 3px solid var(--white-sec); /* Light grey */
+    border-top: 3px solid #FFF; /* Blue */
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+    animation: spin 0.8s ease infinite;
+}
+
+/* loader-active and loader-text-active hide the text and show the loading animation */
+.loader-active {
+    display: flex;
+}
+
+.loader-text-active {
+    display: none;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
 
 /*
 CSS Alterations For Mobile Devices
@@ -144,4 +171,4 @@ Such as reducing/removing margin to maximise content density.
         width: calc(100% - 40px);
     }
   
-  }
+}

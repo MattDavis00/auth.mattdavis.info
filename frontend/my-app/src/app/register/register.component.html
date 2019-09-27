@@ -36,7 +36,7 @@
                 <input type="submit" style="display: none" formnovalidate/>
             </form>
             <div class="section">
-                <a class="submit-button a-button" (click)="register()">Register</a>
+                <a class="submit-button a-button" (click)="register()"><div [class.loader-text-active]="isLoading">Register</div><div [class.loader-active]="isLoading" class="loader"></div></a>
                 <a class="" routerLink="/login">Already have an account? Login!</a>
             </div>
         </div>

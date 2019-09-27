@@ -18,7 +18,7 @@
                 <input type="submit" style="display: none" formnovalidate/>
             </form>
             <div class="section">
-                <a class="submit-button a-button" (click)="login()">Login</a>
+                <a class="submit-button a-button" (click)="login()"><div [class.loader-text-active]="isLoading">Login</div><div [class.loader-active]="isLoading" class="loader"></div></a>
                 <a class="" routerLink="/register" >Don't have an account? Register!</a>
             </div>
         </div>

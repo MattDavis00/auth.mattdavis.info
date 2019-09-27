@@ -10,7 +10,7 @@
                 <h5>You are currently logged into all mattdavis.info services.</h5>
             </div>
             <div id="logout-section" class="section">
-                <a class="submit-button a-button" (click)="logout()">Logout</a>
+                <a class="submit-button a-button" (click)="logout()"><div [class.loader-text-active]="isLoadingLogout">Logout</div><div [class.loader-active]="isLoadingLogout" class="loader"></div></a>
             </div>
             <div class="line-horizontal"></div>
 
@@ -46,7 +46,7 @@
                 <input type="submit" style="display: none" formnovalidate/>
             </form>
             <div class="section">
-                <a class="submit-button a-button" (click)="update()">Update</a>
+                <a class="submit-button a-button" (click)="update()"><div [class.loader-text-active]="isLoadingUpdate">Update</div><div [class.loader-active]="isLoadingUpdate" class="loader"></div></a>
                 All of your data is held in accordance with our <a class="" routerLink="/privacy-policy">Privacy Policy</a>
             </div>
         </div>

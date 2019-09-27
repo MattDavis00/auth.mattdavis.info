@@ -16,6 +16,7 @@ export class RegisterComponent implements OnInit {
   lastName: string = "";
   password: string = "";
   passwordRepeat: string = "";
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient, public router: Router) { }
 
@@ -38,6 +39,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.isLoading = true;
     console.log("Register function ran!");
     this.http.post<{
       success: boolean;
@@ -54,9 +56,12 @@ export class RegisterComponent implements OnInit {
         console.log("POST Request is successful ", data);
         if (data.success)
           this.router.navigate(['/profile']); // Registration was successful, redirect to profile.
+        else
+          this.isLoading = false;
       },
       error  => {
         console.log("Error", error);
+        this.isLoading = false;
       }
 
     );

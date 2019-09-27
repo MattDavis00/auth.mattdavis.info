@@ -21,6 +21,9 @@ export class ProfileComponent implements OnInit {
   newPassword: string = "";
   newPasswordRepeat: string = "";
 
+  isLoadingLogout: boolean = false;
+  isLoadingUpdate: boolean = false;
+
   constructor(private http: HttpClient, public router: Router) { }
 
   ngOnInit() {
@@ -50,6 +53,7 @@ export class ProfileComponent implements OnInit {
   }
 
   logout() {
+    this.isLoadingLogout = true;
     this.http.get<{
       loggedIn: boolean;
     }>(backendURL + "/logout")
@@ -58,9 +62,12 @@ export class ProfileComponent implements OnInit {
         console.log("GET Request is successful ", data);
         if (!data.loggedIn)
           this.router.navigate(['/login']); // User has been logged out, redirect to login page.
+        else
+          this.isLoadingLogout = false;
       },
       error  => {
         console.log("Error", error);
+        this.isLoadingLogout = false;
       }
 
     );

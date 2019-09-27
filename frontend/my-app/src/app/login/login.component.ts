@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
 
   email: string = "";
   password: string = "";
+  isLoading: boolean = false;
 
   constructor(private http: HttpClient, public router: Router) { }
 
@@ -36,6 +37,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.isLoading = true;
     console.log("Ran login function!!!!!");
     console.log(this.email + this.password);
     this.http.post<{
@@ -50,8 +52,11 @@ export class LoginComponent implements OnInit {
         console.log("POST Request is successful ", data);
         if (data.success)
           this.router.navigate(['/profile']); // Login was successful, redirect to profile.
+        else
+          this.isLoading = false;
       },
       error  => {
+        this.isLoading = false;
         console.log("Error", error);
       }
 
