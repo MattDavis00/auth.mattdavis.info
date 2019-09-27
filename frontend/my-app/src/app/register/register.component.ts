@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import backendURL from '../backendURL';
+
+import {HandleErrorsService} from '../handle-errors.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +20,7 @@ export class RegisterComponent implements OnInit {
   passwordRepeat: string = "";
   isLoading: boolean = false;
 
-  constructor(private http: HttpClient, public router: Router) { }
+  constructor(private http: HttpClient, public router: Router, private errService: HandleErrorsService, private el: ElementRef) { }
 
   ngOnInit() {
     this.http.get<{
@@ -36,6 +38,7 @@ export class RegisterComponent implements OnInit {
       }
 
     );
+    
   }
 
   register() {
@@ -43,6 +46,7 @@ export class RegisterComponent implements OnInit {
     console.log("Register function ran!");
     this.http.post<{
       success: boolean;
+      errors: [];
     }>(backendURL + "/register",
     {
     "email": {"data": this.email, "id": "email"},
@@ -56,8 +60,11 @@ export class RegisterComponent implements OnInit {
         console.log("POST Request is successful ", data);
         if (data.success)
           this.router.navigate(['/profile']); // Registration was successful, redirect to profile.
-        else
+        else // Handle errors
+        {
           this.isLoading = false;
+          this.errService.handleErrors(this.el, data.errors, ["email", "firstName", "lastName", "password", "passwordRepeat"]);
+        }
       },
       error  => {
         console.log("Error", error);

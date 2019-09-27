@@ -120,6 +120,10 @@ input:focus {
     border-bottom: 1px solid var(--accent-other);
 }
 
+.input-error {
+    border-bottom: 1px solid red;
+}
+
 .label-animated {
     width: 100%;
     position: relative;

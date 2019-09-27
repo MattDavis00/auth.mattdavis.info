@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProfileComponent } from './profile/profile.component';
+import { HandleErrorsService } from './handle-errors.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { ProfileComponent } from './profile/profile.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [HandleErrorsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

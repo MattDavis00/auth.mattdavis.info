@@ -118,7 +118,7 @@ try {
 
                     res.send(JSON.stringify({"success": true, "errors": []}));
                 } else {
-                    res.send(JSON.stringify({"success": false, "errors": [{"description": "Email and/or password are incorrect."}]}));
+                    res.send(JSON.stringify({"success": false, "errors": [{"id": "all", "reason": "Email and/or password are incorrect."}]}));
                 }
             } else {
                 errorHandler(err, res);
@@ -149,7 +149,7 @@ try {
     function errorHandler (err, res) {
         console.log(err);
         if (res !== undefined)
-            res.send(JSON.stringify({"success": false, "errors": [{"description": "Unable to perform request. Please try again."}]}));
+            res.send(JSON.stringify({"success": false, "errors": [{"id": "fatal", "reason": "Unable to perform request. Please try again."}]}));
     }
 
 
