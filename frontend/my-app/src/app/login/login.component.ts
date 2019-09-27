@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 
 import backendURL from '../backendURL';
+import { HandleErrorsService } from '../handle-errors.service';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,7 @@ export class LoginComponent implements OnInit {
   password: string = "";
   isLoading: boolean = false;
 
-  constructor(private http: HttpClient, public router: Router) { }
+  constructor(private http: HttpClient, public router: Router, private errService: HandleErrorsService, private el: ElementRef) { }
 
   ngOnInit() {
     this.http.get<{
@@ -42,6 +43,7 @@ export class LoginComponent implements OnInit {
     console.log(this.email + this.password);
     this.http.post<{
       success: boolean;
+      errors: [];
     }>(backendURL + "/login",
     {
     "email": {"data": this.email, "id": "email"},
@@ -52,12 +54,15 @@ export class LoginComponent implements OnInit {
         console.log("POST Request is successful ", data);
         if (data.success)
           this.router.navigate(['/profile']); // Login was successful, redirect to profile.
-        else
+        else {
           this.isLoading = false;
+          this.errService.handleErrors(this.el, data.errors, ["email", "password"]);
+        }
       },
       error  => {
         this.isLoading = false;
         console.log("Error", error);
+        this.errService.handleErrors(this.el, {"id": "fatal", "reason": "Unable to perform request. Please try again."}, []);
       }
 
     );
