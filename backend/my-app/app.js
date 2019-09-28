@@ -18,6 +18,10 @@ var date = new Date();
 // Parse body of request as a JSON object.
 app.use(express.json());
 
+// Do not cache any server-side authentication requests.
+// Client must check again each time to ensure consistency.
+const nocache = require('nocache');
+app.use(nocache());
 
 var sessionStore = new MySQLStore({}, con);
 
