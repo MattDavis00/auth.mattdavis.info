@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit {
   password: string = "";
   isLoading: boolean = false;
 
-  constructor(private http: HttpClient, public router: Router, private errService: HandleErrorsService, private el: ElementRef) { }
+  constructor(private http: HttpClient, public router: Router, public errService: HandleErrorsService, private el: ElementRef) { }
 
   ngOnInit() {
     this.http.get<{

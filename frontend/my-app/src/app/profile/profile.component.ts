@@ -25,7 +25,7 @@ export class ProfileComponent implements OnInit {
   isLoadingLogout: boolean = false;
   isLoadingUpdate: boolean = false;
 
-  constructor(private http: HttpClient, public router: Router, private errService: HandleErrorsService, private el: ElementRef) { }
+  constructor(private http: HttpClient, public router: Router, public errService: HandleErrorsService, private el: ElementRef) { }
 
   ngOnInit() {
     this.http.get<{
