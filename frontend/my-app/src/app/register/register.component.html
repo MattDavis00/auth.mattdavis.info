@@ -33,6 +33,7 @@
                     <label>Repeat Password:</label>
                 </div>
 
+                <div class="notification" [ngClass]="errService.notificationHidden ? 'notification-hidden' : ''" (click)="errService.hideNotification()">{{errService.notificationValue}}</div>
                 <input type="submit" style="display: none" formnovalidate/>
             </form>
             <div class="section">

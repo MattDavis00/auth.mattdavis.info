@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
 
 import backendURL from '../backendURL';
+import { HandleErrorsService } from '../handle-errors.service';
 
 @Component({
   selector: 'app-profile',
@@ -24,7 +25,7 @@ export class ProfileComponent implements OnInit {
   isLoadingLogout: boolean = false;
   isLoadingUpdate: boolean = false;
 
-  constructor(private http: HttpClient, public router: Router) { }
+  constructor(private http: HttpClient, public router: Router, private errService: HandleErrorsService, private el: ElementRef) { }
 
   ngOnInit() {
     this.http.get<{
