@@ -67,6 +67,13 @@ class Validation {
             return false;
     }
 
+    empty(variable) {
+        if (!this.defined(variable) || variable.data === "")
+            return true;
+        else
+            return false;
+    }
+
     handleFail(data, reason) {
         this.output.success = false;
         this.output.errors.push({"id": data.id, "reason": reason});
