@@ -17,7 +17,7 @@ export class ProfileComponent implements OnInit {
   lastName: string = "";
   
   newEmail: string = "";
-  newfirstName: string = "";
+  newFirstName: string = "";
   newLastName: string = "";
   newPassword: string = "";
   newPasswordRepeat: string = "";
