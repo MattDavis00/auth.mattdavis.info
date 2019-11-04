@@ -28,29 +28,7 @@ export class ProfileComponent implements OnInit {
   constructor(private http: HttpClient, public router: Router, public errService: HandleErrorsService, private el: ElementRef) { }
 
   ngOnInit() {
-    this.http.get<{
-      loggedIn: boolean;
-      userID: number;
-      email: string;
-      firstName: string;
-      lastName: string;
-    }>(backendURL + "/verify")
-    .subscribe(
-      data  => {
-        console.log("GET Request is successful ", data);
-        if (data.loggedIn) {
-          this.email = data.email;
-          this.firstName = data.firstName;
-          this.lastName = data.lastName;
-        } else {
-          this.router.navigate(['/login']); // If user isn't logged in, redirect to login page.
-        }
-      },
-      error  => {
-        console.log("Error", error);
-      }
-
-    );
+    this.reloadProfile();
   }
 
   logout() {
@@ -75,7 +53,73 @@ export class ProfileComponent implements OnInit {
   }
 
   update() {
+    this.isLoadingUpdate = true;
 
+    this.http.post<{
+      success: boolean;
+      errors: [];
+    }>(backendURL + "/update",
+    {
+    "email": {"data": this.newEmail, "id": "email"},
+    "firstName": {"data": this.newFirstName, "id": "firstName"},
+    "lastName": {"data": this.newLastName, "id": "lastName"},
+    "password": {"data": this.newPassword, "id": "password"},
+    "passwordRepeat": {"data": this.newPasswordRepeat, "id": "passwordRepeat"}
+    })
+    .subscribe(
+      data  => {
+        console.log("POST Request is successful ", data);
+        if (data.success) {
+          // Remove errors and show success message.
+          this.errService.removeErrors(this.el, ["email", "firstName", "lastName", "password", "passwordRepeat"]);
+          this.errService.showNotification("Details have been updated");
+
+          // Clear update form.
+          this.newEmail = "";
+          this.newFirstName = "";
+          this.newLastName = "";
+          this.newPassword = "";
+          this.newPasswordRepeat = "";
+
+          // Populate placeholders with new data
+          this.reloadProfile();
+        } else {
+          this.errService.handleErrors(this.el, data.errors, ["email", "firstName", "lastName", "password", "passwordRepeat"]);
+        }
+        this.isLoadingUpdate = false;
+      },
+      error  => {
+        console.log("Error", error);
+        this.isLoadingUpdate = false;
+      }
+
+    );
+  }
+
+  reloadProfile() {
+    this.http.get<{
+      loggedIn: boolean;
+      userID: number;
+      email: string;
+      firstName: string;
+      lastName: string;
+    }>(backendURL + "/verify")
+    .subscribe(
+      data  => {
+        console.log("GET Request is successful ", data);
+        if (data.loggedIn) {
+          this.email = data.email;
+          this.firstName = data.firstName;
+          this.lastName = data.lastName;
+        } else {
+          this.router.navigate(['/login']); // If user isn't logged in, redirect to login page.
+        }
+      },
+      error  => {
+        console.log("Error", error);
+      }
+
+    );
   }
 
 }

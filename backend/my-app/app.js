@@ -113,6 +113,7 @@ try {
                     req.session.email = result[0].Email;
                     req.session.firstName = result[0].First_Name;
                     req.session.lastName = result[0].Last_Name;
+                    req.session.hash = result[0].Password_Hash;
 
                     var sql = "UPDATE User SET Last_Login = NOW() WHERE User_ID = ?";
                     con.query(sql, [result[0].User_ID], function (err, result) {
@@ -129,6 +130,58 @@ try {
             }
         });
     }
+
+    /////////////////////// Update ////////////////////////
+    app.post('/update', function (req, res) {
+        var request = req.body;
+        console.log(req.body);
+
+        var val = new Validation();
+
+        
+        
+        if (!val.empty(request.email))
+            val.email(request.email);
+        if (!val.empty(request.firstName))
+            val.name(request.firstName);
+        if (!val.empty(request.lastName))
+            val.name(request.lastName);
+        if (!val.empty(request.password) || !val.empty(request.passwordRepeat))
+            val.password(request.password, request.passwordRepeat)
+        
+        if (val.getOutput().success) {
+            var hash = bcrypt.hashSync(request.password.data, 10); // Generate BCrypt Hash
+            var sql = "UPDATE User SET Email = ?, First_Name = ?, Last_Name = ?, Password_Hash = ? WHERE Email = ?";
+            con.query(sql, [
+                (val.empty(request.email)?req.session.email:request.email.data),
+                (val.empty(request.firstName)?req.session.firstName:request.firstName.data),
+                (val.empty(request.lastName)?req.session.lastName:request.lastName.data),
+                (val.empty(request.password)?req.session.hash:hash),
+                req.session.email
+            ], function (err, result) {
+                if (!err)
+                {
+                    req.session.email = (val.empty(request.email)?req.session.email:request.email.data);
+                    req.session.firstName = (val.empty(request.firstName)?req.session.firstName:request.firstName.data);
+                    req.session.lastName = (val.empty(request.lastName)?req.session.lastName:request.lastName.data);
+                    req.session.hash = (val.empty(request.password)?req.session.hash:hash);
+
+                    console.log("Number of records updated: " + result.affectedRows);
+                    if (result.affectedRows === 1) {
+                        res.send(JSON.stringify({"success": true}));
+                    } else {
+                        errorHandler(err, res);
+                    }
+                } else {
+                    errorHandler(err, res);
+                }
+            });
+
+        } else {
+            val.sendResponse(res);
+        }
+        
+    });
 
     /////////////////////// Logout ////////////////////////
     app.get('/logout', function (req, res) {
