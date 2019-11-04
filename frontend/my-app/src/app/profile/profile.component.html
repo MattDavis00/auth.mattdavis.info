@@ -43,6 +43,8 @@
                     <label>Repeat Password:</label>
                 </div>
 
+                <h6 class="update-description">Only edit fields you wish to update. If you wish to update your password, edit password and repeat password.</h6>
+
                 <div class="notification" [ngClass]="errService.notificationHidden ? 'notification-hidden' : ''" (click)="errService.hideNotification()">{{errService.notificationValue}}</div>
                 <input type="submit" style="display: none" formnovalidate/>
             </form>
