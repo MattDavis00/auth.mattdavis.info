@@ -158,6 +158,11 @@ input:focus {
 	left: 5px;
 }
 
+.privacy-policy {
+    max-width: 800px;
+    margin: 40px 0 40px 0;
+}
+
 /* Circular Loading Animations */
 .loader {
     display: none;
