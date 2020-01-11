@@ -67,9 +67,9 @@ export class RegisterComponent implements OnInit {
         }
       },
       error  => {
-        console.log("Error", error);
         this.isLoading = false;
-        this.errService.handleErrors(this.el, {"id": "fatal", "reason": "Unable to perform request. Please try again."}, []);
+        console.log("Error", error);
+        this.errService.handleErrors(this.el, [{"id": "fatal", "reason": "Unable to perform request. Please try again."}], []);
       }
 
     );

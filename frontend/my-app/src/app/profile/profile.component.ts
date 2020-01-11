@@ -45,8 +45,9 @@ export class ProfileComponent implements OnInit {
           this.isLoadingLogout = false;
       },
       error  => {
-        console.log("Error", error);
         this.isLoadingLogout = false;
+        console.log("Error", error);
+        this.errService.handleErrors(this.el, [{"id": "fatal", "reason": "Unable to perform request. Please try again."}], []);
       }
 
     );
@@ -89,8 +90,9 @@ export class ProfileComponent implements OnInit {
         this.isLoadingUpdate = false;
       },
       error  => {
-        console.log("Error", error);
         this.isLoadingUpdate = false;
+        console.log("Error", error);
+        this.errService.handleErrors(this.el, [{"id": "fatal", "reason": "Unable to perform request. Please try again."}], []);
       }
 
     );

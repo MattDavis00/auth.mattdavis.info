@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
       error  => {
         this.isLoading = false;
         console.log("Error", error);
-        this.errService.handleErrors(this.el, {"id": "fatal", "reason": "Unable to perform request. Please try again."}, []);
+        this.errService.handleErrors(this.el, [{"id": "fatal", "reason": "Unable to perform request. Please try again."}], []);
       }
 
     );

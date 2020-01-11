@@ -29,9 +29,9 @@ export class HandleErrorsService {
       } else if (errors[i].id === "fatal") {
 
       } else {
-      el.nativeElement.querySelector("#"+errors[i].id).classList.add("input-error");
-      if (errors[i].id === "password")
-        el.nativeElement.querySelector("#passwordRepeat").classList.add("input-error");
+        el.nativeElement.querySelector("#"+errors[i].id).classList.add("input-error");
+        if (errors[i].id === "password")
+          el.nativeElement.querySelector("#passwordRepeat").classList.add("input-error");
       }
 
       errorMessage = errorMessage + errors[i].reason + " ";
