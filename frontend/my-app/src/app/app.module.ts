@@ -10,6 +10,7 @@ import { RegisterComponent } from './register/register.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { ProfileComponent } from './profile/profile.component';
 import { HandleErrorsService } from './handle-errors.service';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { HandleErrorsService } from './handle-errors.service';
     LoginComponent,
     RegisterComponent,
     PageNotFoundComponent,
-    ProfileComponent
+    ProfileComponent,
+    PrivacyPolicyComponent
   ],
   imports: [
     BrowserModule,
