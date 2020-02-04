@@ -1,5 +1,6 @@
 //////////////////////////////////// Dependencies ////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////
+"use strict";
 
 var Validation = require("./validation");
 
@@ -12,6 +13,12 @@ var MySQLStore = require('express-mysql-session')(session);
 const app = express();
 const port = 4000;
 const bcrypt = require('bcrypt');
+const jwt  = require('jsonwebtoken');
+const fs   = require('fs');
+
+// PRIVATE and PUBLIC key
+const privateKEY = fs.readFileSync('./my-app/private.key', 'utf8');
+const publicKEY = fs.readFileSync('./my-app/public.key', 'utf8');
 
 var date = new Date();
 
@@ -188,10 +195,94 @@ try {
         if (req.session.loggedIn) {
             req.session.destroy();
             res.send(JSON.stringify({"loggedIn": false}));
-        }
-        else {
+        } else {
             res.send(JSON.stringify({"loggedIn": false}));
         }
+    });
+
+    /////////////////////// Auth ////////////////////////
+    app.get('/auth', function (req, res) {
+
+        if (checkURL(req.query.redirectURL) && checkURL(req.query.tokenURL)) {
+            req.session.redirectURL = req.query.redirectURL;
+            req.session.tokenURL = req.query.tokenURL;
+            if (req.session.loggedIn) {
+                sendAuthToken(req, res);
+            } else {
+                res.redirect("https://auth.mattdavis.info/#/login");
+            }
+        } else {
+            res.send("Website is not on allowed list!!!!");
+        }
+    });
+
+    function sendAuthToken (req, res) {
+        if (req.session.loggedIn && checkURL(req.session.redirectURL) && checkURL(req.session.tokenURL)) {
+            // PAYLOAD
+            let payload = {
+                userID: req.session.userID,
+                redirectURL: req.session.redirectURL,
+                checkTokenURL: "https://auth.mattdavis.info/api/check-token"
+            };
+
+            // SIGNING OPTIONS
+            let signOptions = {
+                issuer:  "https://auth.mattdavis.info",
+                expiresIn:  "1h",
+                algorithm:  "RS256"
+            };
+
+            let token = jwt.sign(payload, privateKEY, signOptions);
+
+            let decoded = jwt.decode(token, {complete: true});
+            console.log("\nToken Contents: " + JSON.stringify(decoded));
+
+            res.redirect(req.session.tokenURL + "?token=" + token);
+            req.session.redirectURL = undefined;
+            req.session.tokenURL = undefined;
+        } else {
+            res.redirect("https://auth.mattdavis.info/#/login");
+        }
+    }
+
+    /**
+     * Checks whether a URL is on the allowed list
+     * @param {String} urlToCheck The URL to check
+     * @returns True if the URL is allowed
+     */
+    function checkURL (urlToCheck) {
+        let safeURLs = ["https://auth.mattdavis.info", "https://pastebin.mattdavis.info", "https://pubgolf.mattdavis.info"];
+
+        for (let i = 0; i < safeURLs.length; i++) {
+            if (urlToCheck.indexOf(safeURLs[i]) === 0) {
+                console.log("Retuned true");
+                return true;
+            }
+        }
+
+        console.log("Returned false");
+        return false;
+    }
+
+    /////////////////////// Check Token ////////////////////////
+    app.get('/check-token', function (req, res) {
+
+        let token = req.query.token;
+
+        // VERIFYING OPTIONS
+        let verifyOptions = {
+            issuer:  "https://auth.mattdavis.info",
+            expiresIn:  "1h",
+            algorithm:  "RS256"
+        };
+        
+        try {
+            let data = jwt.verify(token, publicKEY, verifyOptions);
+            res.send(JSON.stringify(data));
+        } catch {
+            res.send("Invalid Token!");
+        }
+
     });
 
     /////////////////////// Verify ////////////////////////
