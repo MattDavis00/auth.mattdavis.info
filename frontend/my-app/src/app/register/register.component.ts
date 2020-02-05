@@ -59,7 +59,8 @@ export class RegisterComponent implements OnInit {
       data  => {
         console.log("POST Request is successful ", data);
         if (data.success)
-          this.router.navigate(['/api/check-for-redirect']); // Registration was successful, redirect to profile.
+          window.location.href = "https://auth.mattdavis.info/api/check-for-redirect";
+          // this.router.navigate(['/api/check-for-redirect']); // Registration was successful, redirect to profile.
         else // Handle errors
         {
           this.isLoading = false;
