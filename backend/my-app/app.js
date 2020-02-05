@@ -17,8 +17,9 @@ const jwt  = require('jsonwebtoken');
 const fs   = require('fs');
 
 // PRIVATE and PUBLIC key
-const privateKEY = fs.readFileSync('./my-app/private.key', 'utf8');
-const publicKEY = fs.readFileSync('./my-app/public.key', 'utf8');
+const path = require('path');
+const privateKEY = fs.readFileSync( path.join(__dirname, 'private.key'), 'utf8');
+const publicKEY = fs.readFileSync(path.join(__dirname, 'public.key'), 'utf8');
 
 var date = new Date();
 
