@@ -59,7 +59,7 @@ export class RegisterComponent implements OnInit {
       data  => {
         console.log("POST Request is successful ", data);
         if (data.success)
-          this.router.navigate(['/profile']); // Registration was successful, redirect to profile.
+          this.router.navigate(['/api/check-for-redirect']); // Registration was successful, redirect to profile.
         else // Handle errors
         {
           this.isLoading = false;

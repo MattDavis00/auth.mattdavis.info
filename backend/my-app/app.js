@@ -129,11 +129,6 @@ try {
                             errorHandler(err, res);
                     });
 
-                    // If user needed to be redirected, redirect.
-                    let val = new Validation();
-                    if (!val.empty(req.session.tokenURL))
-                        sendAuthToken(req, res);
-                    
                     res.send(JSON.stringify({"success": true, "errors": []}));
                 } else {
                     res.send(JSON.stringify({"success": false, "errors": [{"id": "all", "reason": "Email and/or password are incorrect."}]}));
@@ -272,6 +267,11 @@ try {
         console.log("Returned false");
         return false;
     }
+
+    /////////////////////// Check If There Is A Redirect Pending ////////////////////////
+    app.get('/check-for-redirect', function (req, res) {
+        sendAuthToken(req, res);
+    });
 
     /////////////////////// Check Token ////////////////////////
     app.get('/check-token', function (req, res) {

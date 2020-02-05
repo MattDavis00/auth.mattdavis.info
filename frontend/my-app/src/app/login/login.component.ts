@@ -53,7 +53,7 @@ export class LoginComponent implements OnInit {
       data  => {
         console.log("POST Request is successful ", data);
         if (data.success)
-          this.router.navigate(['/profile']); // Login was successful, redirect to profile.
+          this.router.navigate(['/api/check-for-redirect']); // Login was successful, redirect to profile.
         else {
           this.isLoading = false;
           this.errService.handleErrors(this.el, data.errors, ["email", "password"]);
