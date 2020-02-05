@@ -129,6 +129,11 @@ try {
                             errorHandler(err, res);
                     });
 
+                    // If user needed to be redirected, redirect.
+                    let val = new Validation();
+                    if (!val.empty(req.session.tokenURL))
+                        sendAuthToken(req, res);
+                    
                     res.send(JSON.stringify({"success": true, "errors": []}));
                 } else {
                     res.send(JSON.stringify({"success": false, "errors": [{"id": "all", "reason": "Email and/or password are incorrect."}]}));
