@@ -204,6 +204,9 @@ try {
     /////////////////////// Auth ////////////////////////
     app.get('/auth', function (req, res) {
 
+        req.query.redirectURL = decodeURI(req.query.redirectURL);
+        req.query.tokenURL = decodeURI(req.query.tokenURL);
+
         if (checkURL(req.query.redirectURL) && checkURL(req.query.tokenURL)) {
             req.session.redirectURL = req.query.redirectURL;
             req.session.tokenURL = req.query.tokenURL;
