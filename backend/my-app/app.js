@@ -193,12 +193,15 @@ try {
 
     /////////////////////// Logout ////////////////////////
     app.get('/logout', function (req, res) {
-        if (req.session.loggedIn) {
+        if (req.session.loggedIn)
             req.session.destroy();
-            res.send(JSON.stringify({"loggedIn": false}));
+
+        if(req.query.redirect === "true") {
+            res.redirect("https://auth.mattdavis.info/#/login");
         } else {
             res.send(JSON.stringify({"loggedIn": false}));
         }
+
     });
 
     /////////////////////// Auth ////////////////////////
@@ -232,7 +235,7 @@ try {
             // SIGNING OPTIONS
             let signOptions = {
                 issuer:  "https://auth.mattdavis.info",
-                expiresIn:  "1h",
+                expiresIn:  "30s",
                 algorithm:  "RS256"
             };
 
