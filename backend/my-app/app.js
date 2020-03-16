@@ -258,6 +258,9 @@ try {
      * @returns True if the URL is allowed
      */
     function checkURL (urlToCheck) {
+        if (typeof urlToCheck === 'undefined')
+            return false;
+
         let safeURLs = ["https://auth.mattdavis.info", "https://pastebin.mattdavis.info", "https://pubgolf.mattdavis.info"];
 
         for (let i = 0; i < safeURLs.length; i++) {
