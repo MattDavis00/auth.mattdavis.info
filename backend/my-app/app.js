@@ -229,6 +229,7 @@ try {
             let payload = {
                 userID: req.session.userID,
                 redirectURL: req.session.redirectURL,
+                loggedIn: true,
                 checkTokenURL: "https://auth.mattdavis.info/api/check-token"
             };
 
@@ -264,10 +265,8 @@ try {
         let safeURLs = ["https://auth.mattdavis.info", "https://pastebin.mattdavis.info", "https://pubgolf.mattdavis.info"];
 
         for (let i = 0; i < safeURLs.length; i++) {
-            if (urlToCheck.indexOf(safeURLs[i]) === 0) {
-                console.log("Retuned true");
+            if (urlToCheck.indexOf(safeURLs[i]) === 0)
                 return true;
-            }
         }
 
         console.log("Returned false");
@@ -287,7 +286,7 @@ try {
         // VERIFYING OPTIONS
         let verifyOptions = {
             issuer:  "https://auth.mattdavis.info",
-            expiresIn:  "1h",
+            expiresIn:  "30s",
             algorithm:  "RS256"
         };
         
@@ -295,7 +294,7 @@ try {
             let data = jwt.verify(token, publicKEY, verifyOptions);
             res.send(JSON.stringify(data));
         } catch {
-            res.send("Invalid Token!");
+            res.send(JSON.stringify({loggedIn: false}));
         }
 
     });
