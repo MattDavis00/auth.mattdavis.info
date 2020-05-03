@@ -262,7 +262,7 @@ try {
         if (typeof urlToCheck === 'undefined')
             return false;
 
-        let safeURLs = ["https://auth.mattdavis.info", "https://pastebin.mattdavis.info", "https://pubgolf.mattdavis.info"];
+        let safeURLs = ["https://auth.mattdavis.info", "https://pastebin.mattdavis.info", "https://pubgolf.mattdavis.info", "https://track.mattdavis.info"];
 
         for (let i = 0; i < safeURLs.length; i++) {
             if (urlToCheck.indexOf(safeURLs[i]) === 0)
